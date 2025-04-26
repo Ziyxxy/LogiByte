@@ -65,21 +65,38 @@ public class WireBehavior : MonoBehaviour
         // If the endComponent accepts dynamic input linking, connect automatically
         TryAutoConnectInput(endComponent, startComponent);
 
+        // GATE RECOGNITION SYSTEM
         if (startComponent is NotGate notGate && !(endComponent is InputNode))
             {
-                notGate.ConnectOutput(endComponent);  // Assign output
+                notGate.ConnectOutput(endComponent);  // NOT GATE
             }
         if (startComponent is AndGate andGate && !(endComponent is InputNode))
             {
-                andGate.ConnectOutput(endComponent);  // Assign output
+                andGate.ConnectOutput(endComponent);  // AND GATE
             }
         if (startComponent is OrGate orGate && !(endComponent is InputNode))
             {
-                orGate.ConnectOutput(endComponent);  // Assign output
+                orGate.ConnectOutput(endComponent);  // OR GATE
+            }
+        if (startComponent is XorGate xorGate && !(endComponent is InputNode))
+            {
+                xorGate.ConnectOutput(endComponent);  // XOR GATE
+            }
+        if (startComponent is NandGate nandGate && !(endComponent is InputNode))
+            {
+                nandGate.ConnectOutput(endComponent);  // NAND GATE
+            }
+        if (startComponent is NorGate norGate && !(endComponent is InputNode))
+            {
+                norGate.ConnectOutput(endComponent);  // NOR GATE
+            }
+        if (startComponent is XnorGate xnorGate && !(endComponent is InputNode))
+            {
+                xnorGate.ConnectOutput(endComponent);  // XNOR GATE
             }
         if (startComponent is OutputNode outputGate && !(endComponent is InputNode))
             {
-                outputGate.ConnectInput(endComponent);  // Assign output
+                outputGate.ConnectInput(endComponent);  // OUTPUT
             }
     }
 
@@ -89,6 +106,7 @@ public class WireBehavior : MonoBehaviour
         var type = target.GetType();
         var input1 = type.GetField("input1");
         var input2 = type.GetField("input2");
+        var input3 = type.GetField("input3");
 
         if (input1 != null && input1.GetValue(target) == null)
         {
@@ -97,6 +115,10 @@ public class WireBehavior : MonoBehaviour
         else if (input2 != null && input2.GetValue(target) == null)
         {
             input2.SetValue(target, inputSource);
+        }
+        else if (input3 != null && input3.GetValue(target) == null)
+        {
+            input3.SetValue(target, inputSource);
         }
 
         // For OutputNodes or gates, recalculate signal
@@ -115,6 +137,7 @@ public class WireBehavior : MonoBehaviour
     {
         if (startComponent != null && endComponent != null)
         {
+            // GATE DISCONNECT SYSTEM
             // Disconnect from OutputNode
             if (endComponent is OutputNode outputNode)
             {
@@ -125,34 +148,112 @@ public class WireBehavior : MonoBehaviour
                 outputNode.ResetOutputColor();
             }
 
-            // Disconnect from AndGate
+            // NOT GATE
+            if (endComponent is NotGate notGate)
+            {
+                if (notGate.input1 == startComponent)
+                    notGate.input1 = null;
+            }
+            if (startComponent is NotGate outputNot)
+            {
+                if (outputNot.connectedOutput == endComponent)
+                    outputNot.connectedOutput = null;
+            }
+
+            // AND GATE
             if (endComponent is AndGate andGate)
             {
                 if (andGate.input1 == startComponent)
                     andGate.input1 = null;
                 else if (andGate.input2 == startComponent)
                     andGate.input2 = null;
+                else if (andGate.input3 == startComponent)
+                    andGate.input3 = null;
             }
-            // Disconnect gate output AND
             if (startComponent is AndGate outputAnd)
             {
                 if (outputAnd.connectedOutput == endComponent)
                     outputAnd.connectedOutput = null;
             }
 
-            // Disconnect from OrGate
+            // OR GATE
             if (endComponent is OrGate orGate)
             {
                 if (orGate.input1 == startComponent)
                     orGate.input1 = null;
                 else if (orGate.input2 == startComponent)
                     orGate.input2 = null;
+                else if (orGate.input3 == startComponent)
+                    orGate.input3 = null;
             }
-            // Disconnect gate output OR
             if (startComponent is OrGate outputOr)
             {
                 if (outputOr.connectedOutput == endComponent)
                     outputOr.connectedOutput = null;
+            }
+
+            // XOR GATE
+            if (endComponent is XorGate xorGate)
+            {
+                if (xorGate.input1 == startComponent)
+                    xorGate.input1 = null;
+                else if (xorGate.input2 == startComponent)
+                    xorGate.input2 = null;
+                else if (xorGate.input3 == startComponent)
+                    xorGate.input3 = null;
+            }
+            if (startComponent is XorGate outputXor)
+            {
+                if (outputXor.connectedOutput == endComponent)
+                    outputXor.connectedOutput = null;
+            }
+            
+            // NAND GATE
+            if (endComponent is NandGate nandGate)
+            {
+                if (nandGate.input1 == startComponent)
+                    nandGate.input1 = null;
+                else if (nandGate.input2 == startComponent)
+                    nandGate.input2 = null;
+                else if (nandGate.input3 == startComponent)
+                    nandGate.input3 = null;
+            }
+            if (startComponent is NandGate outputNand)
+            {
+                if (outputNand.connectedOutput == endComponent)
+                    outputNand.connectedOutput = null;
+            }
+
+            // NOR GATE
+            if (endComponent is NorGate norGate)
+            {
+                if (norGate.input1 == startComponent)
+                    norGate.input1 = null;
+                else if (norGate.input2 == startComponent)
+                    norGate.input2 = null;
+                else if (norGate.input3 == startComponent)
+                    norGate.input3 = null;
+            }
+            if (startComponent is NorGate outputNor)
+            {
+                if (outputNor.connectedOutput == endComponent)
+                    outputNor.connectedOutput = null;
+            }
+
+            // XNOR GATE
+            if (endComponent is XnorGate xnorGate)
+            {
+                if (xnorGate.input1 == startComponent)
+                    xnorGate.input1 = null;
+                else if (xnorGate.input2 == startComponent)
+                    xnorGate.input2 = null;
+                else if (xnorGate.input3 == startComponent)
+                    xnorGate.input3 = null;
+            }
+            if (startComponent is XnorGate outputXnor)
+            {
+                if (outputXnor.connectedOutput == endComponent)
+                    outputXnor.connectedOutput = null;
             }
 
             // Remove from input's wire list

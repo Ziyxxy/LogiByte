@@ -1,19 +1,23 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
 {
     public GameObject tilePrefab;
-    public GameObject inputPrefab;   // Prefab for input nodes (A and B)
-    public GameObject outputPrefab;  // Prefab for output node
+    public GameObject inputPrefab;
+    public GameObject outputPrefab;
 
     public int rows = 5;
     public int columns = 8;
     public float spacing = 1.5f;
     public Vector2 cameraCenter = new Vector2(5f, 3f);
 
-    public Vector2 inputAPosition = new Vector2(1, 1);
-    public Vector2 inputBPosition = new Vector2(2, 2);
-    public Vector2 outputPosition = new Vector2(6, 3); // Position for the Output node
+    [Header("Dynamic Input/Output")]
+    public int numberOfInputs = 2;
+    public int numberOfOutputs = 1;
+
+    public List<Vector2> inputPositions = new List<Vector2>();
+    public List<Vector2> outputPositions = new List<Vector2>();
 
     void Start()
     {
@@ -42,25 +46,26 @@ public class GridGenerator : MonoBehaviour
 
     void PlaceInputs()
     {
-        PlaceInputAt(inputAPosition, "Input A");
-        PlaceInputAt(inputBPosition, "Input B");
-    }
-
-    void PlaceInputAt(Vector2 gridPosition, string inputName)
-    {
-        Vector2 gridOffset = new Vector2(columns / 2f, rows / 2f);
-        Vector2 worldPos = (gridPosition - gridOffset + cameraCenter) * spacing;
-
-        GameObject inputNode = Instantiate(inputPrefab, worldPos, Quaternion.identity, this.transform);
-        InputNode inputNodeScript = inputNode.GetComponent<InputNode>();
+        for (int i = 0; i < numberOfInputs && i < inputPositions.Count; i++)
+        {
+            PlaceNodeAt(inputPrefab, inputPositions[i], $"Input {i + 1}");
+        }
     }
 
     void PlaceOutputs()
     {
-        Vector2 gridOffset = new Vector2(columns / 2f, rows / 2f);
-        Vector2 worldPos = (outputPosition - gridOffset + cameraCenter) * spacing;
+        for (int i = 0; i < numberOfOutputs && i < outputPositions.Count; i++)
+        {
+            PlaceNodeAt(outputPrefab, outputPositions[i], $"Output {i + 1}");
+        }
+    }
 
-        GameObject outputNode = Instantiate(outputPrefab, worldPos, Quaternion.identity, this.transform);
-        outputNode.name = "Output Node";
+    void PlaceNodeAt(GameObject prefab, Vector2 gridPosition, string nodeName)
+    {
+        Vector2 gridOffset = new Vector2(columns / 2f, rows / 2f);
+        Vector2 worldPos = (gridPosition - gridOffset + cameraCenter) * spacing;
+
+        GameObject node = Instantiate(prefab, worldPos, Quaternion.identity, this.transform);
+        node.name = nodeName;
     }
 }

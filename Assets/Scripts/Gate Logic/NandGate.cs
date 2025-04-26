@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AndGate : ThreeInputLogic
+public class NandGate : ThreeInputLogic
 {
     private bool state = false;
 
@@ -24,22 +24,23 @@ public class AndGate : ThreeInputLogic
         // Checks if And should behave with 2 or 3 inputs
         if (input1 != null && input2 != null && input3 == null) // input 3 off
         {
-            state = signal1 && signal2;
+            state = !(signal1 && signal2);
         }
         if (input1 != null && input2 == null && input3 != null) // input 2 off
         {
-            state = signal1 && signal3;
+            state = !(signal1 && signal3);
         }
         if (input1 == null && input2 != null && input3 != null) // input 1 off
         {
-            state = signal2 && signal3;
+            state = !(signal2 && signal3);
         }
         if (input1 != null && input2 != null && input3 != null) // all inputs on (3 input)
         {
-            state = signal1 && signal2 && signal3;
+            state = !(signal1 && signal2 && signal3);
         }
-
         // Forward signal to connected component
         connectedOutput?.ReceiveSignal(state);
     }
 }
+
+// Make sure all gate logics are being called in WireDrawer.cs

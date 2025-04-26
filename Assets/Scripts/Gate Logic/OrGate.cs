@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OrGate : TwoInputLogic
+public class OrGate : ThreeInputLogic
 {
     private bool state = false;
 
@@ -19,9 +19,25 @@ public class OrGate : TwoInputLogic
     {
         bool signal1 = input1 != null && input1.GetOutput();
         bool signal2 = input2 != null && input2.GetOutput();
+        bool signal3 = input3 != null && input3.GetOutput();
 
-        state = signal1 || signal2;
-
+        // Checks if And should behave with 2 or 3 inputs
+        if (input1 != null && input2 != null && input3 == null) // input 3 off
+        {
+            state = signal1 || signal2;
+        }
+        if (input1 != null && input2 == null && input3 != null) // input 2 off
+        {
+            state = signal1 || signal3;
+        }
+        if (input1 == null && input2 != null && input3 != null) // input 1 off
+        {
+            state = signal2 || signal3;
+        }
+        if (input1 != null && input2 != null && input3 != null) // all inputs on (3 input)
+        {
+            state = signal1 || signal2 || signal3;
+        }
         // Forward signal to connected component
         connectedOutput?.ReceiveSignal(state);
     }

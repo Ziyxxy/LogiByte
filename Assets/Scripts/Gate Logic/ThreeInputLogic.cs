@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public abstract class TwoInputLogic : ComponentBase
+public abstract class ThreeInputLogic : ComponentBase
 {
     public ComponentBase input1;
     public ComponentBase input2;
+    public ComponentBase input3;
     public ComponentBase connectedOutput;
 
     public void ConnectInput1(ComponentBase input)
@@ -15,6 +16,12 @@ public abstract class TwoInputLogic : ComponentBase
     public void ConnectInput2(ComponentBase input)
     {
         input2 = input;
+        UpdateOutputFromInputs();
+    }
+
+    public void ConnectInput3(ComponentBase input)
+    {
+        input3 = input;
         UpdateOutputFromInputs();
     }
 
