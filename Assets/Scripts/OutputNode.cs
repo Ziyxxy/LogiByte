@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class OutputNode : ComponentBase
 {
+    private Color32 StartColor = new Color32(111, 144, 137, 255);
+    private Color32 EndColor = new Color32(9, 255, 203, 255);
     private bool state = false;
 
     // Only one input allowed
@@ -33,11 +35,11 @@ public class OutputNode : ComponentBase
 
     private void UpdateOutputColor()
     {
-        GetComponent<SpriteRenderer>().color = state ? Color.green : Color.red;
+        GetComponent<SpriteRenderer>().color = state ? EndColor : StartColor;
     }
 
     public void ResetOutputColor()
     {
-        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<SpriteRenderer>().color = StartColor;
     }
 }

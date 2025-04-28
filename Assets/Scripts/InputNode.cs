@@ -72,4 +72,27 @@ public class InputNode : ComponentBase
         }
     }
 
+    public void NotifyConnectedGates()
+    {
+        foreach (var wire in connectedWires)
+        {
+            if (wire.endComponent != null)
+            {
+                wire.endComponent.ReceiveSignal(state);
+            }
+        }
+    }
+
+    public void SetState(bool value)
+    {
+        this.state = value;
+        for (int i = connectedWires.Count - 1; i >= 0; i--)
+        {
+            var wire = connectedWires[i];
+            if (wire == null)
+                connectedWires.RemoveAt(i);
+            else
+                wire.UpdateSignal();
+        }
+    }
 }
