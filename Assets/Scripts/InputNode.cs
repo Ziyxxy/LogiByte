@@ -86,6 +86,7 @@ public class InputNode : ComponentBase
     public void SetState(bool value)
     {
         this.state = value;
+        UpdateColor();
         for (int i = connectedWires.Count - 1; i >= 0; i--)
         {
             var wire = connectedWires[i];

@@ -53,7 +53,7 @@ public class typewriterUI_v2 : MonoBehaviour
 
 	private void OnEnable()
 	{
-		print("On Enable!");
+		//print("On Enable!");
 		if(startOnEnable) StartTypewriter();
 	}
 

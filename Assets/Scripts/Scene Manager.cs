@@ -5,6 +5,11 @@ public class SceneLoader : MonoBehaviour
 {
     // Load the Play scene
 
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void LoadLevelOneScene()
     {
         SceneManager.LoadScene("Level1");
@@ -23,12 +28,6 @@ public class SceneLoader : MonoBehaviour
     public void LoadLevelFourScene()
     {
         SceneManager.LoadScene("Level4");
-    }
-
-    // Load the Settings scene
-    public void LoadSettingsScene()
-    {
-        SceneManager.LoadScene("Settings");
     }
 
     // Quit the application
