@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Effect Test.unity
     guid: a7b56040250fd4f42bf7453cce727a41
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Settings.unity
     guid: d422f20daad51e342a398c12a2f7824b
   - enabled: 1
